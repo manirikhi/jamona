@@ -22,7 +22,7 @@
 		<mongo-java-driver.version>3.0.3</mongo-java-driver.version>
 		<spring-data-mongodb.version>1.7.2.RELEASE</spring-data-mongodb.version>
 		<codec.version>1.7</codec.version>
-		<spring.security.version>3.1.0.RELEASE</spring.security.version>
+		<spring.security.version>5.3.1.RELEASE</spring.security.version>
 	</properties>
 
 	<dependencies>
