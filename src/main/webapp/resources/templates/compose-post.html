@@ -1,0 +1,86 @@
+  <!-- Row start -->
+  <div class="row">
+           <form class="col s12" role="form" novalidate>
+            
+            <div class="row">
+            <div class="input-field col s12">
+            	<label for="title">Post title</label>
+				<input type="text" name="title" class="validate" id="title"	required ng-model="newPost.title">
+            </div>
+            </div>
+            
+            <div class="row">
+              <div class="col s12">
+              	<label class="m2" for="category">Category</label>
+                <select class="browser-default" id="category" ng-model="newPost.category" ng-options="category.value as category.name for category in categories"></select>
+              </div>
+            </div>
+            
+            <div class="row">
+                <div id="editor"></div>
+            </div>
+            
+            <div class="row">
+            <div class="input-field col s6">
+              <label >Tag</label>
+				<input type="text" name="tag" id="tag" ng-model="newTag" />
+			</div>
+			<div class="col s6">
+				<button class="btn left orange" type="button" ng-click="addtag(newTag);" >Add!</button>
+			</div>
+            </div>
+            
+            <div class="row">
+              <div class="m12">
+                <ul class="tags">
+				<li ng-repeat="tag in newPost.tags" ng-mouseover="showCross=true" ng-mouseleave="showCross=false" class="tag-margin">
+					<span><a href="">{{tag}}</a>
+					<div ng-show="showCross" ng-click="popTag(tag)" style="cursor: pointer;display: inline;"><i class="material-icons">close</i></div></span>
+				</li>
+			</ul>
+              </div>
+            </div>
+          </form>
+  </div>
+  <!-- Row end -->
+  
+<div class="row">
+<div class="m2 offset-m6">
+	<a class="waves-effect waves-light btn modal-trigger blue" href="#preview-post">Preview</a>
+</div>
+<div class="m4">	
+	<button type="submit" class="btn right orange" ng-click="savePost(newPost);">Submit Post</button>
+	<button type="reset" class="btn right orange" style="margin-right: 10px;">Cancel</button>
+</div>
+</div>
+
+  <!-- Modal Structure -->
+  <div id="preview-post" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <!-- View post -->
+		<div class="card hoverable">
+		    <div class="card-image">
+		      <img src="resources/img/office.jpg">
+		      <span class="card-title">
+			      {{newPost.title}}
+		      </span>
+		    </div>
+		      <div class="card-content">
+				<div ng-bind-html='newPost.content'></div>
+		      </div>
+		      <div class="card-action">
+		        <div class="row">
+			        <div class="col s12">
+						<ul class="tags tag-listing">
+							<li ng-repeat="tag in post.tags"><a>{{tag}}</a></li>
+						</ul>
+					</div>
+				</div>
+		      </div>
+		</div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Edit</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+    </div>
+  </div>

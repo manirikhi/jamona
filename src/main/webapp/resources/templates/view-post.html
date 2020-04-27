@@ -1,0 +1,150 @@
+
+<!-- View post -->
+<div class="card hoverable">
+    <div class="card-image">
+      <img src="resources/img/office.jpg">
+      <span class="card-title">
+	      {{post.title}}
+      </span>
+    </div>
+      <div class="card-content">
+		<div class="row">
+			<div class="col s4">
+				<i class="material-icons">perm_identity</i>&nbsp<a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Posted by {{post.authorName}}" ng-click="listPostsByAuthor(post.authorEmail)" href="#/blogs">{{post.authorName}}</a>
+			</div>
+			<div class="col s4" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Posted on {{post.creationDate|date}}">
+					<i class="material-icons">query_builder</i>
+					{{post.creationDate|date}}
+			</div>
+			<div class="col s4" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Viewd by {{post.hitCount}} users">
+					<i class="material-icons">visibility</i>
+					{{post.hitCount}}
+			</div>
+		</div>
+		<li class="divider"></li>
+		<div ng-bind-html='post.content'></div>
+      </div>
+      <div class="card-action">
+        <div class="row">
+	        <div class="col s12">
+				<ul class="tags tag-listing">
+					<li ng-repeat="tag in post.tags"><a
+						ng-click="listPostsByTag(tag)" href="#/blogs">{{tag}}</a></li>
+				</ul>
+			</div>
+		</div>
+      </div>
+</div>
+
+<!-- comment section -->
+<div class="card hoverable">
+  <div class="card-content blue-text">
+    <span class="card-title blue-text">Leave a comment</span>
+	<form role="form" novalidate>
+	<div class="row">
+		<div class="input-field col s12 m6">
+			<label for="name">Name</label> <input type="text" ng-model="newcomment.name" class="validate" id="name">
+		</div>
+
+		<div class="input-field col s12 m6">
+			<label for="email">Email</label> <input type="email" ng-model="newcomment.email" class="form-control" id="email">
+		</div>
+	</div>
+		<div class="row">
+			<div class="input-field col s12">
+			<label for="comment">Comment</label>
+            <textarea id="comment" class="materialize-textarea" ng-model="newcomment.content" length="120"></textarea>
+          </div>
+		</div>
+
+		<div class="row">
+			<button class="btn waves-effect waves-light orange right" style="margin-right: 20px;" ng-click="saveComment(newcomment,post.id)" type="submit" name="action">Submit
+			    <i class="material-icons right">send</i>
+			  </button>
+		</div>
+
+	</form>
+  </div>
+</div>
+
+<div>
+	<div class="row">
+		<div class="col s12">
+			<h5 ng-if="comments.length == 0">No Comment for the post!</h5>
+			<h5 ng-if="comments.length == 1">One Comment for the post!</h5>
+			<h5 ng-if="comments.length>1">{{comments.length}} Comments for the post!</h5>
+		</div>
+		<!-- /s12 -->
+	</div>
+	<!-- /row -->
+	<div class="row" ng-if="comments.length == 0">
+	<div class="card-panel hoverable">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="resources/img/thumbnail_icon.jpg" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+                Be first to write comment for this post.
+              </span>              
+            </div>
+          </div>
+     </div>
+		<!-- /s5 -->
+	</div>
+	<!-- /row -->
+	
+	<div class="row" ng-if="comments.length > 0" ng-repeat="comment in comments">
+		<div class="col s2">
+				<img src="resources/img/thumbnail_icon.jpg" alt="" class="responsive-img">
+			<!-- /thumbnail -->
+		</div>
+		<!-- /s1 -->
+
+		<div class="col s10">
+			<div class="card-panel hoverable">
+				<div class="row valign-wrapper">
+					<div class="col s8"><strong>{{comment.name}}</strong> on :{{comment.commentDate|date}}</div>
+					<div class="col s2"><div class="right"><div id="thumb-up" ng-click="likeComment(comment.id);" class="fa fa-thumbs-up cur-ptr"></div> {{comment.likes}}</div></div>
+					<div class="col s2"><div id="thumb-down" ng-click="disLikeComment(comment.id);"  class="fa fa-thumbs-up fa-rotate-180 cur-ptr"></div> {{comment.dislikes}}</div>
+				</div>
+				<li class="divider"></li>
+				<div  class="row ">
+				<div ng-bind-html='comment.content'></div>
+				<button class="btn right" ng-click="showReplyForm = !showReplyForm">Reply</button>
+				</div>
+				
+			</div>
+		</div>
+			<!-- replies listing template -->
+	<div class="col s10 offset-s2" ng-if="comment.replies.length > 0" ng-repeat="reply in comment.replies">
+	<div class="row">
+		<div class="col s2">
+				<img src="resources/img/thumbnail_icon.jpg" alt="" class="responsive-img">
+			<!-- /thumbnail -->
+		</div>
+		<!-- /s1 -->
+		<div class="col s10">
+			<div class="card-panel hoverable">
+				<div class="row valign-wrapper">
+						<div class="s8 col"><strong>{{reply.name}}</strong> <span class="text-muted">on :{{reply.replyDate|date}}</span></div>
+						<div class="s2 col"><div class="pull-right"><div id="thumb-up" ng-click="likeReply(comment.id,reply.email,reply.replyDate);" class="fa fa-thumbs-up cur-ptr"></div> {{reply.likes}}</div></div>
+						<div class="s2 col"><div id="thumb-down" ng-click="disLikeReply(comment.id,reply.email,reply.replyDate);"  class="fa fa-thumbs-up fa-rotate-180 cur-ptr"></div> {{reply.dislikes}}</div>
+				</div>
+				<li class="divider"></li>
+				<div  class="row">
+						<div ng-bind-html='reply.content'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!-- /Reply form -->
+		<!-- /s5 -->
+	</div>
+	<!-- end replies listing template -->
+	
+		<!-- reply template -->
+		<div class="col s10 offset-s2" ng-if="showReplyForm"  ng-include="'resources/templates/comment-reply.html'"></div>
+</div>	
+	<!-- /row -->
+</div>

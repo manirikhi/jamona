@@ -1,0 +1,23 @@
+<div class="row">
+<table class="bordered highlight responsive-table">
+<thead>
+  <tr>
+	  <th data-field="name">Title</th>
+	  <th data-field="name">Author</th>
+	  <th data-field="date">Creation Date</th>
+	  <th data-field="id">Edit</th>
+	  <th data-field="id">Remove</th>
+  </tr>
+</thead>
+
+<tbody>
+		<tr ng-repeat="post in posts">
+			<td>{{post.title}}</td>
+			<td>{{post.authorName}}</td>
+			<td>{{post.creationDate|date}}</td>
+			<td class="text-muted"><span><a	ng-click="openEditPost('',post);" ><i class="material-icons">spellcheck</i></i></a></span></td>
+			<td class="text-muted"><span><a	ng-click="deletePost(post.id)"><i class="material-icons">delete</i></a></span></td>
+		</tr>
+</tbody>
+</table>
+</div>
